@@ -37,6 +37,10 @@ app.use("/concert", concertRoutes);
 app.use("/artist", artistRoutes);
 app.use("/ticket", ticketRoutes);
 
-app.listen(port, () => {
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
     console.log(`🚀 Server is running on PORT ${port}`);
-})
+  });
+}
+
+module.exports = app;
