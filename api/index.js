@@ -10,25 +10,24 @@ const express = require('express');
 const cors = require('cors');
 const db = require('../config/db');
 
+// Initialize express
 const app = express();
 
-// connect to database
+// Connect to database
 db.connectDB();
 
-// middlewares
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-    cors({
-        methods: "GET,POST,PUT,DELETE",
-        credentials: true
-    })
-);
+app.use(cors({
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true
+}));
 
-// status
-app.get('/api/status', (req, res) => {
-    res.status(200).send({ status: "Server is running" });
-})
+// Status check endpoint
+app.get('/api', (req, res) => {
+    res.status(200).json({ status: "Server is running" });
+});
 
 // Update routes to include /api prefix
 app.use("/api/user", userRoutes);
@@ -45,4 +44,5 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
+// Export for serverless use
 module.exports = app;

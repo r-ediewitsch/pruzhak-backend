@@ -1,14 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "api/index.js",
+  "main": "index.js",
   "engines": {
     "node": "18.x"
   },
   "scripts": {
-    "start": "node api/index.js",
-    "build": "npm install",
-    "dev": "nodemon api/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "vercel-build": "echo hello"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
