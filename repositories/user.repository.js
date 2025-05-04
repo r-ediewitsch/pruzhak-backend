@@ -107,11 +107,11 @@ async function getUserPlans(req, res) {
     try {
         const user = await User.findById(req.params.userId)
             .select('-password')
-            .populate('plans');
+            .populate('plannedConcerts');
         
         if (!user) throw new Error("User not found");
 
-        res.status(200).json({ success: true, message: "Found user plans", data: user.plans });
+        res.status(200).json({ success: true, message: "Found user's planned concerts", data: user.plannedConcerts });
     } catch (err) {
         res.status(400).json({ success: false, message: err.message });
         console.log(`Error Message: ${err.message}`);
@@ -120,19 +120,19 @@ async function getUserPlans(req, res) {
 
 async function addUserPlan(req, res) {
     try {
-        const { planId } = req.body;
-        if (!planId) throw new Error("Plan ID is required");
+        const { concertId } = req.body;
+        if (!concertId) throw new Error("Concert ID is required");
 
         const user = await User.findByIdAndUpdate(
             req.params.userId,
-            { $addToSet: { plans: planId } },
+            { $addToSet: { plannedConcerts: concertId } },
             { new: true }
         ).select('-password')
-        .populate('plans');
+        .populate('plannedConcerts');
         
         if (!user) throw new Error("User not found");
 
-        res.status(200).json({ success: true, message: "Successfully added plan to user", data: user });
+        res.status(200).json({ success: true, message: "Successfully added concert to user's plan", data: user });
     } catch (err) {
         res.status(400).json({ success: false, message: err.message });
         console.log(`Error Message: ${err.message}`);

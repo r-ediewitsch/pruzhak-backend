@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema (
             type: String,
             required: true,
         },
-        concertplan: [{
+        plannedConcerts: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Concert",
         }],
