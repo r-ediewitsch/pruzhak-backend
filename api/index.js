@@ -10,39 +10,20 @@ const express = require('express');
 const cors = require('cors');
 const db = require('../config/db');
 
-// Initialize express
 const app = express();
 
-// Connect to database
+// connect to database
 db.connectDB();
 
-// Middlewares
+// middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true
-}));
+app.use(cors());
 
-// Status check endpoint
-app.get('/api', (req, res) => {
-    res.status(200).json({ status: "Server is running" });
-});
+app.use("/user", userRoutes);
+app.use("/music", musicRoutes);
+app.use("/concert", concertRoutes);
+app.use("/artist", artistRoutes);
+app.use("/ticket", ticketRoutes);
 
-// Update routes to include /api prefix
-app.use("/api/user", userRoutes);
-app.use("/api/music", musicRoutes);
-app.use("/api/concert", concertRoutes);
-app.use("/api/artist", artistRoutes);
-app.use("/api/ticket", ticketRoutes);
-
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-    const port = process.env.PORT || 5000;
-    app.listen(port, () => {
-        console.log(`🚀 Server is running on PORT ${port}`);
-    });
-}
-
-// Export for serverless use
 module.exports = app;
